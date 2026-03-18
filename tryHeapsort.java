@@ -12,25 +12,33 @@ import java.util.*;
 public class tryHeapsort {
 
     public static void main(String[] args) {
-        // 1. Load and clean words from Ulysses
+        // 1. small dataset for testing (Section 2c)
         String[] originalData = {"banana", "apple", "cherry", "date", "elderberry", "fig", "grape"};
 
         // 2. Test with small set first (Section 2c)
         System.out.println("Testing with small array...");
         runTest(originalData.clone());
-
-        // 3. Timing for larger dataset (Section 2d/e)
-        String[] largeData = loadUlyssesWords();
-        if (largeData != null) {
-            runTimings(largeData);
+        // 2b. Test with Ulysses words (Section 2d) which are on the anagram.tex file
+         // read a latex file
+        String[] ulyssesWords = loadUlyssesWords();
+        if (ulyssesWords != null && ulyssesWords.length > 0) {
+            System.out.println("\nTesting with Ulysses words...");
+            runTest(ulyssesWords);
+        } else {
+            System.out.println("No data loaded from anagram.tex; skipping Ulysses test.");
+        } 
+        
+        // 3. Timing for larger dataset (Section 2d/e)//
+        String[] largeData = loadAnagramWords();
+        if (largeData != null && largeData.length > 0) {
+           System.out.println("large data set timings: ");
+           runTimings(largeData);
+        } else {
+            System.out.println("No data loaded from anagram.tex; skipping timing test.");
         }
     }
+    // --- HEAP METHODS --- //
 
-    // --- HEAP METHODS ---
-
-    /**
-     * Section 2(a): Build heap from the bottom up (O(n))
-     */
     public static void buildHeapBottomUp(String[] arr) {
         int n = arr.length;
         for (int i = n / 2 - 1; i >= 0; i--) {
@@ -38,11 +46,8 @@ public class tryHeapsort {
         }
     }
 
-    /**
-     * Section 2(b): Build heap from the top down (O(n log n))
-     */
     public static void buildHeapTopDown(String[] arr) {
-        // Repeatedly "inserting" by sifting up each new element
+        // Repeatedly "inserting" by sifting up each new element//
         for (int i = 1; i < arr.length; i++) {
             siftUp(arr, i);
         }
@@ -118,7 +123,7 @@ public class tryHeapsort {
 
     private static String[] loadUlyssesWords() {
         List<String> words = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("ulysses.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("anagram.tex"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 // Basic cleaning: remove punctuation and convert to lowercase
@@ -131,10 +136,37 @@ public class tryHeapsort {
             }
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
-            return null;
+            return new String[0];
+        }
+
+        return words.toArray(new String[0]);
+    }
+
+    private static String[] loadAnagramWords() {
+        List<String> words = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader("anagram.tex"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Remove LaTeX comments
+                line = line.replaceAll("%.*", "");
+                // Remove common LaTeX commands and braces
+                line = line.replaceAll("\\\\[a-zA-Z@]+\\*?(\\[[^\\]]*\\])?(\\{[^}]*\\})?", " ");
+                line = line.replaceAll("[{}]", " ");
+                // Keep only letters and whitespace
+                line = line.replaceAll("[^a-zA-Z\\s]", " ");
+                // Basic cleaning: split and lowercase
+                String[] lineWords = line.toLowerCase().trim().split("\\s+");
+                for (String word : lineWords) {
+                    if (!word.isEmpty()) {
+                        words.add(word);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+            return new String[0];
         }
 
         return words.toArray(new String[0]);
     }
 }
-
