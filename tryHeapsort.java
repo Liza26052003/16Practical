@@ -20,6 +20,7 @@ public class tryHeapsort {
         runTest(originalData.clone());
         // 2b. Test with Ulysses words (Section 2d) which are on the anagram.tex file
          // read a latex file
+          System.out.println("\n-----------this array is not a required output ----------\n");
         String[] ulyssesWords = loadUlyssesWords();
         if (ulyssesWords != null && ulyssesWords.length > 0) {
           // System.out.println("\nTesting with Ulysses words...");
@@ -27,11 +28,13 @@ public class tryHeapsort {
         } else {
            // System.out.println("No data loaded from anagram.tex; skipping Ulysses test.");
         } 
-        
+        System.out.println("\n----------------------\n");
         // 3. Timing for larger dataset (Section 2d/e)//
+       
         String[] largeData = loadAnagramWords();
+        
         if (largeData != null && largeData.length > 0) {
-           System.out.println("large data set timings: ");
+           System.out.println("large data set timings:- ");
            runTimings(largeData);
         } else {
             System.out.println("No data loaded from anagram.tex; skipping timing test.");
