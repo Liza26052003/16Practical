@@ -22,10 +22,10 @@ public class tryHeapsort {
          // read a latex file
         String[] ulyssesWords = loadUlyssesWords();
         if (ulyssesWords != null && ulyssesWords.length > 0) {
-            System.out.println("\nTesting with Ulysses words...");
+          // System.out.println("\nTesting with Ulysses words...");
             runTest(ulyssesWords);
         } else {
-            System.out.println("No data loaded from anagram.tex; skipping Ulysses test.");
+           // System.out.println("No data loaded from anagram.tex; skipping Ulysses test.");
         } 
         
         // 3. Timing for larger dataset (Section 2d/e)//
