@@ -1,12 +1,13 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
 // cunsaltation of Google AI and VS code Agent was used
 /**
  * CSC 211 - Practical 6: Heap Construction and Sorting
  * Developed with the assistance of an AI.
  */
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.*;
+
 
 public class tryHeapsort {
 
